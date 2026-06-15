@@ -7,15 +7,78 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    .product-card { transition: all 0.3s; }
-    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
-    .hero-bg { background: linear-gradient(135deg, #1e1b4b, #4c1d95); }
+    body {
+      background: radial-gradient(circle at center, #1a1433 0%, #0a0819 70%);
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Starry Background */
+    .stars {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: transparent;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 4s infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    .product-card { 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .product-card:hover { 
+      transform: translateY(-12px) scale(1.03); 
+      box-shadow: 0 30px 60px -15px rgb(168 85 247 / 0.5); 
+    }
+
+    /* Glowing Buttons */
+    .glow-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      opacity: 0;
+      transition: all 0.4s;
+    }
+    .glow-btn:hover::before {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    .neon-glow {
+      box-shadow: 0 0 15px #a855f7,
+                  0 0 30px #a855f7,
+                  0 0 45px rgba(168, 85, 247, 0.5);
+    }
+    .neon-glow:hover {
+      box-shadow: 0 0 25px #c026d3,
+                  0 0 40px #c026d3,
+                  0 0 60px rgba(192, 38, 211, 0.6);
+    }
   </style>
 </head>
 <body class="bg-zinc-950 text-white font-sans">
 
+  <!-- Starry Background -->
+  <div class="stars" id="stars"></div>
+
   <!-- Navbar -->
-  <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50 border-b border-purple-500/20">
+  <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50 border-b border-purple-500/30">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
         <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub Logo" class="h-20">
@@ -26,36 +89,37 @@
         <a href="https://discord.gg/h3R3XpCAa4" target="_blank" class="hover:text-purple-400 transition">Discord</a>
       </div>
       <a href="https://discord.gg/h3R3XpCAa4" target="_blank"
-         class="bg-purple-600 hover:bg-purple-700 px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2">
+         class="glow-btn neon-glow bg-purple-600 hover:bg-purple-700 px-6 py-2.5 rounded-2xl font-semibold flex items-center gap-2 transition">
         <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)
       </a>
     </div>
   </nav>
 
   <!-- Hero -->
-  <section class="hero-bg pt-32 pb-24 text-center">
+  <section class="pt-32 pb-24 text-center relative">
     <div class="max-w-4xl mx-auto px-6">
       <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
         Get Your Dream<br><span class="text-purple-400">Roblox Items</span><br>Delivered Fast!
       </h1>
-      <p class="text-2xl mb-10 text-zinc-300">Get your favorite items in game for cheap!</p>
-      <a href="#shop" class="inline-block bg-white text-black font-bold text-xl px-10 py-5 rounded-2xl hover:scale-105 transition">
+      <p class="text-2xl mb-10 text-zinc-300">Cheap • Reliable • Instant Delivery</p>
+      <a href="#shop" 
+         class="glow-btn inline-block bg-white text-black font-bold text-xl px-12 py-6 rounded-3xl hover:scale-105 transition neon-glow">
         SHOP NOW →
       </a>
     </div>
   </section>
 
   <!-- Shop Section -->
-  <section id="shop" class="py-20 bg-zinc-900">
+  <section id="shop" class="py-20 bg-zinc-900/50">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-bold text-center mb-8"></h2>
+      <h2 class="text-5xl font-bold text-center mb-12">Featured Items</h2>
       
       <div class="max-w-2xl mx-auto mb-12">
         <div class="relative">
           <input 
             id="searchInput" 
             type="text" 
-            placeholder="Search your favorite games or items..." 
+            placeholder="Search items or games..." 
             class="w-full bg-zinc-800 border border-purple-500/30 rounded-2xl py-4 px-6 text-lg focus:outline-none focus:border-purple-500">
           <i class="fas fa-search absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500"></i>
         </div>
@@ -63,6 +127,13 @@
 
       <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         <!-- Products loaded here -->
+      </div>
+
+      <div class="text-center mt-12">
+        <button id="loadMoreBtn"
+                class="glow-btn neon-glow bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white font-semibold px-10 py-4 rounded-2xl transition text-lg">
+          SHOW MORE
+        </button>
       </div>
     </div>
   </section>
@@ -80,12 +151,12 @@
         <div>
           <div class="text-6xl mb-4">2️⃣</div>
           <h3 class="text-2xl font-bold mb-3">Join Discord</h3>
-          <p class="text-zinc-400">Join the Discord server and make a ticket.</p>
+          <p class="text-zinc-400">Join the Discord server and open a ticket.</p>
         </div>
         <div>
           <div class="text-6xl mb-4">3️⃣</div>
-          <h3 class="text-2xl font-bold mb-3">Delivery</h3>
-          <p class="text-zinc-400">Items will be deliverd after payment.</p>
+          <h3 class="text-2xl font-bold mb-3">Fast Delivery</h3>
+          <p class="text-zinc-400">Items delivered after payment confirmation.</p>
         </div>
       </div>
     </div>
@@ -100,126 +171,87 @@
   </footer>
 
   <script>
-    // ============= ADD YOUR PRODUCTS HERE =============
     const products = [
-      {
-        id: 1,
-        name: "Dragon Breath Seed",
-        price: 9.99,
-        image: "https://i.postimg.cc/jwkk5FGp/image.png",   // ← Correct direct link
-        game: "Grow A Garden 2"
-      },
-      {
-        id: 2,
-        name: "50x Bamboo Seeds",
-        price: 1.50,
-        image: "https://i.postimg.cc/yYmj1gVf/image.png",
-        game: "Grow A Garden 2"
-      },
-      {
-        id: 3,
-        name: "Moon Bloom Seed",
-        price: 9.99,
-        image: "https://i.postimg.cc/zvG5kdCv/image.png",   // ← Correct direct link
-        game: "Grow A Garden 2"
-      },
-      {
-        id: 4,
-        name: "50x Mushroom Seeds",
-        price: 1.50,
-        image: "https://i.postimg.cc/sXnb33WZ/image.png",
-        game: "Grow A Garden 2"
-      },      {
-        id: 5,
-        name: "Cherry Seed",
-        price: 1.99,
-        image: "https://i.postimg.cc/TwHNZC8V/image.png",   // ← Correct direct link
-        game: "Grow A Garden 2"
-      },
-      {
-        id: 6,
-        name: "Pomegranate Seed",
-        price: 9.99,
-        image: "https://i.postimg.cc/G2B63Zx6/image.png",
-        game: "Grow A Garden 2"
-      },
-            {
-        id: 7,
-        name: "Dragon Cannelloni",
-        price: 49.99,
-        image: "https://i.postimg.cc/Gm7MBX25/image.png",
-        game: "Steal A Brainrot"
-      },
-       {
-        id: 7,
-        name: "Garama And Madundung",
-        price: 4.50,
-        image: "https://i.postimg.cc/XYz8NXHR/image.png",
-        game: "Steal A Brainrot"
-      },
-     {
-        id: 8,
-        name: "Ketchuru And Musturu",
-        price: 1.50,
-        image: "https://i.postimg.cc/brVHxjd6/image.png",
-        game: "Steal A Brainrot"
-      },
-     {
-        id: 9,
-        name: "Ketupat Kepat",
-        price: 1.50,
-        image: "https://i.postimg.cc/ZRCrJMwb/image.png",
-        game: "Steal A Brainrot"
-      },
-            {
-        id: 10,
-        name: "Acorn Seed",
-        price: 1.99,
-        image: "https://i.postimg.cc/ry4rgWbg/image.png",
-        game: "Grow A Garden 2"
-      },
-     {
-        id: 11,
-        name: "Venus Fly Trap Seed",
-        price: 5,
-        image: "https://i.postimg.cc/N0rsY81y/image.png",
-        game: "Grow A Garden 2"
-      },
-            {
-        id: 12,
-        name: "Sunflower Seed",
-        price: 5,
-        image: "https://i.postimg.cc/vHBdbLyG/image.png",
-        game: "Grow A Garden 2"
-      },
-      // Add more here...
+      { id: 1, name: "Dragon Breath Seed", price: 9.99, image: "https://i.postimg.cc/jwkk5FGp/image.png", game: "Grow A Garden 2" },
+      { id: 2, name: "50x Bamboo Seeds", price: 1.50, image: "https://i.postimg.cc/yYmj1gVf/image.png", game: "Grow A Garden 2" },
+      { id: 3, name: "Moon Bloom Seed", price: 9.99, image: "https://i.postimg.cc/zvG5kdCv/image.png", game: "Grow A Garden 2" },
+      { id: 4, name: "50x Mushroom Seeds", price: 1.50, image: "https://i.postimg.cc/sXnb33WZ/image.png", game: "Grow A Garden 2" },
+      { id: 5, name: "Cherry Seed", price: 1.99, image: "https://i.postimg.cc/TwHNZC8V/image.png", game: "Grow A Garden 2" },
+      { id: 6, name: "Pomegranate Seed", price: 9.99, image: "https://i.postimg.cc/G2B63Zx6/image.png", game: "Grow A Garden 2" },
+      { id: 7, name: "Dragon Cannelloni", price: 49.99, image: "https://i.postimg.cc/Gm7MBX25/image.png", game: "Steal A Brainrot" },
+      { id: 8, name: "Garama And Madundung", price: 4.50, image: "https://i.postimg.cc/XYz8NXHR/image.png", game: "Steal A Brainrot" },
+      { id: 9, name: "Ketchuru And Musturu", price: 1.50, image: "https://i.postimg.cc/brVHxjd6/image.png", game: "Steal A Brainrot" },
+      { id: 10, name: "Ketupat Kepat", price: 1.50, image: "https://i.postimg.cc/ZRCrJMwb/image.png", game: "Steal A Brainrot" },
+      { id: 11, name: "Acorn Seed", price: 1.99, image: "https://i.postimg.cc/ry4rgWbg/image.png", game: "Grow A Garden 2" },
+      { id: 12, name: "Venus Fly Trap Seed", price: 5, image: "https://i.postimg.cc/N0rsY81y/image.png", game: "Grow A Garden 2" },
+      { id: 13, name: "Sunflower Seed", price: 5, image: "https://i.postimg.cc/vHBdbLyG/image.png", game: "Grow A Garden 2" }
     ];
+
+    let showAll = false;
+
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        const size = Math.random() * 3 + 1;
+        star.className = 'star';
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `-${Math.random() * 4}s`;
+        starsContainer.appendChild(star);
+      }
+    }
+
     function renderProducts(filteredProducts) {
       const grid = document.getElementById('productsGrid');
       grid.innerHTML = '';
 
-      filteredProducts.forEach(product => {
+      const toShow = showAll ? filteredProducts : filteredProducts.slice(0, 8);
+
+      toShow.forEach(product => {
         const card = `
-          <div class="product-card bg-zinc-900 rounded-3xl overflow-hidden">
+          <div class="product-card bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800/80">
             <img src="${product.image}" alt="${product.name}" class="w-full h-60 object-cover">
             <div class="p-6">
               <h3 class="font-bold text-xl mb-1">${product.name}</h3>
               <p class="text-purple-400 text-sm">${product.game}</p>
-              <p class="text-green-400 font-bold mt-3">$${product.price}</p>
+              <p class="text-green-400 font-bold mt-4 text-2xl">$${product.price}</p>
               <a href="https://discord.gg/h3R3XpCAa4" target="_blank"
-                 class="block text-center mt-4 bg-purple-600 py-3 rounded-2xl font-semibold hover:bg-purple-700 transition">
-                Purchase
+                 class="glow-btn neon-glow block text-center mt-6 bg-purple-600 hover:bg-purple-700 py-4 rounded-2xl font-semibold transition text-lg">
+                Purchase on Discord
               </a>
             </div>
           </div>
         `;
         grid.innerHTML += card;
       });
+
+      // Update button
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      if (showAll || filteredProducts.length <= 8) {
+        loadMoreBtn.style.display = 'none';
+      } else {
+        loadMoreBtn.style.display = 'inline-block';
+      }
     }
 
     // Search
     document.getElementById('searchInput').addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
+      const searchTerm = e.target.value.toLowerCase().trim();
+      const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(searchTerm) || 
+        p.game.toLowerCase().includes(searchTerm)
+      );
+      showAll = false; // Reset to showing 8 when searching
+      renderProducts(filtered);
+    });
+
+    // Load More / Show All
+    document.getElementById('loadMoreBtn').addEventListener('click', () => {
+      showAll = true;
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
       const filtered = products.filter(p => 
         p.name.toLowerCase().includes(searchTerm) || 
         p.game.toLowerCase().includes(searchTerm)
@@ -227,6 +259,8 @@
       renderProducts(filtered);
     });
 
+    // Initialize
+    createStars();
     renderProducts(products);
   </script>
 </body>
