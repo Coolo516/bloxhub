@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxHub - Roblox Items Marketplace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    .product-card { transition: all 0.3s; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
+    .hero-bg { background: linear-gradient(135deg, #1e1b4b, #4c1d95); }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50 border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub Logo" class="h-20">
+      </div>
+      <div class="hidden md:flex gap-8 text-lg">
+        <a href="#shop" class="hover:text-purple-400 transition">Shop</a>
+        <a href="#how" class="hover:text-purple-400 transition">How it Works</a>
+        <a href="https://discord.gg/8gVnHsHptx" target="_blank" class="hover:text-purple-400 transition">Discord</a>
+      </div>
+      <a href="https://discord.gg/8gVnHsHptx" target="_blank"
+         class="bg-purple-600 hover:bg-purple-700 px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2">
+        <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-bg pt-32 pb-24 text-center">
+    <div class="max-w-4xl mx-auto px-6">
+      <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+        Get Your Dream<br><span class="text-purple-400">Roblox Items</span><br>Delivered Fast!
+      </h1>
+      <p class="text-2xl mb-10 text-zinc-300">Get your favorite items in game for cheap!</p>
+      <a href="#shop" class="inline-block bg-white text-black font-bold text-xl px-10 py-5 rounded-2xl hover:scale-105 transition">
+        SHOP NOW →
+      </a>
+    </div>
+  </section>
+
+  <!-- Shop Section -->
+  <section id="shop" class="py-20 bg-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-bold text-center mb-8"></h2>
+      
+      <div class="max-w-2xl mx-auto mb-12">
+        <div class="relative">
+          <input 
+            id="searchInput" 
+            type="text" 
+            placeholder="Search your favorite games or items..." 
+            class="w-full bg-zinc-800 border border-purple-500/30 rounded-2xl py-4 px-6 text-lg focus:outline-none focus:border-purple-500">
+          <i class="fas fa-search absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500"></i>
+        </div>
+      </div>
+
+      <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <!-- Products loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="py-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-5xl font-bold mb-16">How It Works</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div>
+          <div class="text-6xl mb-4">1️⃣</div>
+          <h3 class="text-2xl font-bold mb-3">Choose Items</h3>
+          <p class="text-zinc-400">Browse our catalog of Roblox items.</p>
+        </div>
+        <div>
+          <div class="text-6xl mb-4">2️⃣</div>
+          <h3 class="text-2xl font-bold mb-3">Join Discord</h3>
+          <p class="text-zinc-400">Join the Discord server and make a ticket.</p>
+        </div>
+        <div>
+          <div class="text-6xl mb-4">3️⃣</div>
+          <h3 class="text-2xl font-bold mb-3">Delivery</h3>
+          <p class="text-zinc-400">Items will be deliverd after payment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black py-16 border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub" class="mx-auto mb-6 h-20">
+      <p class="text-zinc-500">© 2026 BloxHub • Not affiliated with Roblox Corporation</p>
+    </div>
+  </footer>
+
+  <script>
+    // ============= ADD YOUR PRODUCTS HERE =============
+    const products = [
+      {
+        id: 1,
+        name: "Dragon Breath Seed",
+        price: 9.99,
+        image: "https://i.postimg.cc/jwkk5FGp/image.png",   // ← Correct direct link
+        game: "Grow A Garden 2"
+      },
+      {
+        id: 2,
+        name: "50x Bamboo Seed",
+        price: 1.50,
+        image: "https://i.postimg.cc/yYmj1gVf/image.png",
+        game: "Grow A Garden 2"
+      },
+
+      // Add more here...
+    ];
+    function renderProducts(filteredProducts) {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+
+      filteredProducts.forEach(product => {
+        const card = `
+          <div class="product-card bg-zinc-900 rounded-3xl overflow-hidden">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-60 object-cover">
+            <div class="p-6">
+              <h3 class="font-bold text-xl mb-1">${product.name}</h3>
+              <p class="text-purple-400 text-sm">${product.game}</p>
+              <p class="text-green-400 font-bold mt-3">$${product.price}</p>
+              <a href="https://discord.gg/8gVnHsHptx" target="_blank"
+                 class="block text-center mt-4 bg-purple-600 py-3 rounded-2xl font-semibold hover:bg-purple-700 transition">
+                Purchase
+              </a>
+            </div>
+          </div>
+        `;
+        grid.innerHTML += card;
+      });
+    }
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(searchTerm) || 
+        p.game.toLowerCase().includes(searchTerm)
+      );
+      renderProducts(filtered);
+    });
+
+    renderProducts(products);
+  </script>
+</body>
+</html>
