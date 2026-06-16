@@ -7,139 +7,183 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    body {
-      background: radial-gradient(circle at center, #1a1433 0%, #0a0819 70%);
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    /* Starry Background */
-    .stars {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: transparent;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      animation: twinkle 4s infinite alternate;
-    }
-    @keyframes twinkle {
-      0% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
+    body { background: #0a0a0a; }
 
-    .product-card { 
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-    }
-    .product-card:hover { 
-      transform: translateY(-12px) scale(1.03); 
-      box-shadow: 0 30px 60px -15px rgb(168 85 247 / 0.5); 
-    }
-
-    /* Glowing Buttons */
-    .glow-btn {
+    .hero-bg {
+      background: linear-gradient(135deg, rgba(30,27,75,0.6), rgba(76,29,149,0.6));
       position: relative;
       overflow: hidden;
     }
-    .glow-btn::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-      opacity: 0;
-      transition: all 0.4s;
+
+    .section-dark   { background: rgba(10,10,10,0.55); }
+    .section-darker { background: rgba(5,5,5,0.45); }
+
+    .product-card, .payment-card {
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-    .glow-btn:hover::before {
-      opacity: 1;
-      transform: scale(1.2);
+    .product-card:hover, .payment-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
     }
-    .neon-glow {
-      box-shadow: 0 0 15px #a855f7,
-                  0 0 30px #a855f7,
-                  0 0 45px rgba(168, 85, 247, 0.5);
+
+    /* ── New button style: pill outline with glow ── */
+    .btn-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 32px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #e9d5ff;
+      background: transparent;
+      border: 1.5px solid #a855f7;
+      box-shadow: 0 0 12px rgba(168,85,247,0.5), inset 0 0 12px rgba(168,85,247,0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
     }
-    .neon-glow:hover {
-      box-shadow: 0 0 25px #c026d3,
-                  0 0 40px #c026d3,
-                  0 0 60px rgba(192, 38, 211, 0.6);
+    .btn-glow:hover {
+      background: rgba(168,85,247,0.12);
+      border-color: #c084fc;
+      color: #f3e8ff;
+      box-shadow: 0 0 22px rgba(192,132,252,0.7), 0 0 50px rgba(168,85,247,0.3), inset 0 0 18px rgba(168,85,247,0.12);
+      transform: translateY(-1px);
+    }
+    .btn-glow:active {
+      transform: scale(0.97);
+    }
+
+    /* Solid variant for primary CTAs */
+    .btn-glow-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      border: 1.5px solid #c084fc;
+      box-shadow: 0 0 18px rgba(168,85,247,0.55), 0 0 40px rgba(168,85,247,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-glow-solid:hover {
+      background: linear-gradient(135deg, #6d28d9, #9333ea);
+      box-shadow: 0 0 28px rgba(168,85,247,0.8), 0 0 60px rgba(168,85,247,0.35);
+      transform: translateY(-2px);
+    }
+    .btn-glow-solid:active { transform: scale(0.97); }
+
+    .cart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #e9d5ff;
+      background: transparent;
+      border: 1.5px solid #a855f7;
+      box-shadow: 0 0 14px rgba(168,85,247,0.5);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .cart-btn:hover {
+      background: rgba(168,85,247,0.12);
+      border-color: #c084fc;
+      box-shadow: 0 0 24px rgba(192,132,252,0.7);
+    }
+
+    /* Show more button */
+    #loadMoreBtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 44px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #e9d5ff;
+      background: transparent;
+      border: 1.5px solid #a855f7;
+      box-shadow: 0 0 16px rgba(168,85,247,0.5), inset 0 0 14px rgba(168,85,247,0.06);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    #loadMoreBtn:hover {
+      background: rgba(168,85,247,0.1);
+      border-color: #c084fc;
+      box-shadow: 0 0 28px rgba(192,132,252,0.7), 0 0 55px rgba(168,85,247,0.3);
+      transform: translateY(-2px);
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white font-sans">
+<body class="text-white font-sans">
 
-  <!-- Starry Background -->
-  <div class="stars" id="stars"></div>
+  <canvas id="starCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 
   <!-- Navbar -->
-  <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50 border-b border-purple-500/30">
+  <nav class="bg-black/80 backdrop-blur-md fixed w-full z-50 border-b border-purple-500/20">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub Logo" class="h-20">
-      </div>
+      <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub Logo" class="h-20">
       <div class="hidden md:flex gap-8 text-lg">
-        <a href="#shop" class="hover:text-purple-400 transition">Shop</a>
-        <a href="#how" class="hover:text-purple-400 transition">How it Works</a>
+        <a href="#shop"    class="hover:text-purple-400 transition">Shop</a>
+        <a href="#payment" class="hover:text-purple-400 transition">Payment Methods</a>
+        <a href="#how"     class="hover:text-purple-400 transition">How it Works</a>
         <a href="https://discord.gg/h3R3XpCAa4" target="_blank" class="hover:text-purple-400 transition">Discord</a>
       </div>
-      <a href="https://discord.gg/h3R3XpCAa4" target="_blank"
-         class="glow-btn neon-glow bg-purple-600 hover:bg-purple-700 px-6 py-2.5 rounded-2xl font-semibold flex items-center gap-2 transition">
+      <a href="https://discord.gg/h3R3XpCAa4" target="_blank" class="cart-btn">
         <i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)
       </a>
     </div>
   </nav>
 
   <!-- Hero -->
-  <section class="pt-32 pb-24 text-center relative">
+  <section class="hero-bg pt-32 pb-24 text-center relative" style="z-index:1;">
     <div class="max-w-4xl mx-auto px-6">
       <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
         Get Your Dream<br><span class="text-purple-400">Roblox Items</span><br>Delivered Fast!
       </h1>
-      <p class="text-2xl mb-10 text-zinc-300">Cheap • Reliable • Instant Delivery</p>
-      <a href="#shop" 
-         class="glow-btn inline-block bg-white text-black font-bold text-xl px-12 py-6 rounded-3xl hover:scale-105 transition neon-glow">
-        SHOP NOW →
-      </a>
+      <p class="text-2xl mb-10 text-zinc-300">Cheap, reliable, and instant delivery.</p>
+      <a href="#shop" class="btn-glow-solid text-xl px-12 py-5">SHOP NOW →</a>
     </div>
   </section>
 
-  <!-- Shop Section -->
-  <section id="shop" class="py-20 bg-zinc-900/50">
+  <!-- Shop -->
+  <section id="shop" class="section-dark py-20 relative" style="z-index:1;">
     <div class="max-w-7xl mx-auto px-6">
       <h2 class="text-5xl font-bold text-center mb-12">Featured Items</h2>
-      
       <div class="max-w-2xl mx-auto mb-12">
         <div class="relative">
-          <input 
-            id="searchInput" 
-            type="text" 
-            placeholder="Search items or games..." 
-            class="w-full bg-zinc-800 border border-purple-500/30 rounded-2xl py-4 px-6 text-lg focus:outline-none focus:border-purple-500">
+          <input id="searchInput" type="text" placeholder="Search items or games..."
+            class="w-full bg-zinc-800/80 border border-purple-500/30 rounded-2xl py-4 px-6 text-lg focus:outline-none focus:border-purple-500">
           <i class="fas fa-search absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500"></i>
         </div>
       </div>
-
-      <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        <!-- Products loaded here -->
-      </div>
-
+      <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
       <div class="text-center mt-12">
-        <button id="loadMoreBtn"
-                class="glow-btn neon-glow bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white font-semibold px-10 py-4 rounded-2xl transition text-lg">
-          SHOW MORE
+        <button id="loadMoreBtn">
+          <i class="fas fa-th-large"></i> Show All Items
         </button>
       </div>
     </div>
   </section>
 
+  <!-- Payment -->
+  <section id="payment" class="section-darker py-20 relative" style="z-index:1;">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-5xl font-bold text-center mb-4">Accepted Payment Methods</h2>
+      <p class="text-center text-zinc-400 text-xl mb-12">Fast & Secure • All payments via Discord ticket</p>
+      <div id="paymentGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+    </div>
+  </section>
+
   <!-- How It Works -->
-  <section id="how" class="py-20">
+  <section id="how" class="section-dark py-20 relative" style="z-index:1;">
     <div class="max-w-5xl mx-auto px-6 text-center">
       <h2 class="text-5xl font-bold mb-16">How It Works</h2>
       <div class="grid md:grid-cols-3 gap-10">
@@ -163,7 +207,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black py-16 border-t border-zinc-800">
+  <footer class="relative py-16 border-t border-zinc-800" style="background:rgba(0,0,0,0.7);z-index:1;">
     <div class="max-w-7xl mx-auto px-6 text-center">
       <img src="https://i.postimg.cc/KkNxHx3W/image.png" alt="BloxHub" class="mx-auto mb-6 h-20">
       <p class="text-zinc-500">© 2026 BloxHub • Not affiliated with Roblox Corporation</p>
@@ -171,109 +215,169 @@
   </footer>
 
   <script>
+    // ── Starry Canvas ──────────────────────────────────────────────────────────
+    (function () {
+      const canvas = document.getElementById('starCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, stars = [], shooters = [];
+
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function initStars() {
+        stars = [];
+        const count = Math.floor((W * H) / 2800);
+        for (let i = 0; i < count; i++) {
+          const layer = Math.floor(Math.random() * 3);
+          stars.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: layer === 0 ? rand(0.3,0.8) : layer === 1 ? rand(0.8,1.5) : rand(1.5,2.5),
+            alpha: rand(0.3,1), speed: rand(0.003,0.015), phase: Math.random() * Math.PI * 2,
+            color: Math.random() < 0.08 ? '#c4b5fd' : Math.random() < 0.05 ? '#93c5fd' : '#ffffff'
+          });
+        }
+      }
+
+      function spawnShooter() {
+        const angle = rand(15,45) * Math.PI / 180;
+        shooters.push({ x: rand(-100, W*0.7), y: rand(0, H*0.5),
+          vx: Math.cos(angle)*rand(6,12), vy: Math.sin(angle)*rand(6,12),
+          len: rand(80,200), alpha: 0, life: 0, maxLife: rand(40,80) });
+      }
+
+      function draw(t) {
+        ctx.clearRect(0,0,W,H);
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0,0,W,H);
+        const grd = ctx.createRadialGradient(W*.35,H*.4,0,W*.35,H*.4,W*.55);
+        grd.addColorStop(0,'rgba(76,29,149,0.18)');
+        grd.addColorStop(0.5,'rgba(30,27,75,0.10)');
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
+
+        stars.forEach(s => {
+          const a = s.alpha * (0.5 + 0.5 * Math.sin(t * s.speed * 60 + s.phase));
+          ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = s.color;
+          ctx.shadowBlur = s.r > 1.5 ? 8 : 4; ctx.shadowColor = s.color;
+          ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.restore();
+        });
+
+        for (let i = shooters.length-1; i >= 0; i--) {
+          const s = shooters[i]; s.life++; s.x += s.vx; s.y += s.vy;
+          s.alpha = s.life < 10 ? s.life/10 : 1-(s.life-10)/(s.maxLife-10);
+          if (s.life >= s.maxLife) { shooters.splice(i,1); continue; }
+          const ang = Math.atan2(s.vy,s.vx);
+          const tx = s.x - Math.cos(ang)*s.len, ty = s.y - Math.sin(ang)*s.len;
+          const g = ctx.createLinearGradient(tx,ty,s.x,s.y);
+          g.addColorStop(0,'rgba(255,255,255,0)');
+          g.addColorStop(0.7,`rgba(196,181,253,${s.alpha*0.4})`);
+          g.addColorStop(1,`rgba(255,255,255,${s.alpha})`);
+          ctx.save(); ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.globalAlpha=s.alpha;
+          ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(s.x,s.y); ctx.stroke(); ctx.restore();
+        }
+      }
+
+      let last=0, nextShooter=0;
+      function loop(t) {
+        const dt=(t-last)/1000; last=t; nextShooter-=dt;
+        if (nextShooter<=0) { spawnShooter(); nextShooter=rand(1.5,5); }
+        draw(t/1000); requestAnimationFrame(loop);
+      }
+      resize(); initStars(); requestAnimationFrame(loop);
+      window.addEventListener('resize',()=>{ resize(); initStars(); });
+    })();
+
+    // ── Data ──────────────────────────────────────────────────────────────────
     const products = [
-      { id: 1, name: "Dragon Breath Seed", price: 9.99, image: "https://i.postimg.cc/jwkk5FGp/image.png", game: "Grow A Garden 2" },
-      { id: 2, name: "50x Bamboo Seeds", price: 1.50, image: "https://i.postimg.cc/yYmj1gVf/image.png", game: "Grow A Garden 2" },
-      { id: 3, name: "Moon Bloom Seed", price: 9.99, image: "https://i.postimg.cc/zvG5kdCv/image.png", game: "Grow A Garden 2" },
-      { id: 4, name: "50x Mushroom Seeds", price: 1.50, image: "https://i.postimg.cc/sXnb33WZ/image.png", game: "Grow A Garden 2" },
-      { id: 5, name: "Cherry Seed", price: 1.99, image: "https://i.postimg.cc/TwHNZC8V/image.png", game: "Grow A Garden 2" },
-      { id: 6, name: "Pomegranate Seed", price: 9.99, image: "https://i.postimg.cc/G2B63Zx6/image.png", game: "Grow A Garden 2" },
-      { id: 7, name: "Dragon Cannelloni", price: 49.99, image: "https://i.postimg.cc/Gm7MBX25/image.png", game: "Steal A Brainrot" },
-      { id: 8, name: "Garama And Madundung", price: 4.50, image: "https://i.postimg.cc/XYz8NXHR/image.png", game: "Steal A Brainrot" },
-      { id: 9, name: "Ketchuru And Musturu", price: 1.50, image: "https://i.postimg.cc/brVHxjd6/image.png", game: "Steal A Brainrot" },
-      { id: 10, name: "Ketupat Kepat", price: 1.50, image: "https://i.postimg.cc/ZRCrJMwb/image.png", game: "Steal A Brainrot" },
-      { id: 11, name: "Acorn Seed", price: 1.99, image: "https://i.postimg.cc/ry4rgWbg/image.png", game: "Grow A Garden 2" },
-      { id: 12, name: "Venus Fly Trap Seed", price: 5, image: "https://i.postimg.cc/N0rsY81y/image.png", game: "Grow A Garden 2" },
-      { id: 13, name: "Sunflower Seed", price: 5, image: "https://i.postimg.cc/vHBdbLyG/image.png", game: "Grow A Garden 2" },
-      { id: 14, name: "Frog Pet", price: 0.5, image: "https://i.postimg.cc/5NXp1pPt/image.png", game: "Grow A Garden 2" },
-      { id: 15, name: "Bunny Pet", price: 0.5, image: "https://i.postimg.cc/43szK117/image.png", game: "Grow A Garden 2" },
-      { id: 16, name: "Owl Pet", price: 0.75, image: "https://i.postimg.cc/cCp3d7HK/image.png", game: "Grow A Garden 2" },
-      { id: 17, name: "Golden Dragonfly Pet", price: 3.99, image: "https://i.postimg.cc/kDP20n1R/image.png", game: "Grow A Garden 2" },
-      { id: 18, name: "Robin Pet", price: 1, image: "https://i.postimg.cc/nL33YL0Z/image.png", game: "Grow A Garden 2" },
-      { id: 19, name: "Bee Pet", price: 1, image: "https://i.postimg.cc/xjwtPhGW/image.png", game: "Grow A Garden 2" },
-      { id: 20, name: "Monkey Pet", price: 2.99, image: "https://i.postimg.cc/nLhkzJZ1/image.png", game: "Grow A Garden 2" },
-      { id: 21, name: "Unicorn Pet", price: 3.99, image: "https://i.postimg.cc/mrkY4yN6/image.png", game: "Grow A Garden 2" },
-      { id: 22, name: "Raccoon Pet", price: 10.99, image: "https://i.postimg.cc/kGqDJnPq/image.png", game: "Grow A Garden 2" },
-      { id: 23, name: "La Secret Combinasion", price: 3.99, image: "https://i.postimg.cc/prsVPzB5/image.png", game: "Steal A Brainrot" },
-      { id: 24, name: "Cerberus", price: 8.99, image: "https://i.postimg.cc/WbKjS2Ys/image.png", game: "Steal A Brainrot" },
-      { id: 25, name: "Burguro and Fryuro", price: 4.50, image: "https://i.postimg.cc/6qqJLSdY/image.png", game: "Steal A Brainrot" },
+      { id:1,  name:"Dragon Breath Seed",    price:9.99,  image:"https://i.postimg.cc/jwkk5FGp/image.png", game:"Grow A Garden 2" },
+      { id:2,  name:"50x Bamboo Seeds",       price:1.50,  image:"https://i.postimg.cc/yYmj1gVf/image.png", game:"Grow A Garden 2" },
+      { id:3,  name:"Moon Bloom Seed",         price:9.99,  image:"https://i.postimg.cc/zvG5kdCv/image.png", game:"Grow A Garden 2" },
+      { id:4,  name:"50x Mushroom Seeds",      price:1.50,  image:"https://i.postimg.cc/sXnb33WZ/image.png", game:"Grow A Garden 2" },
+      { id:5,  name:"Cherry Seed",             price:1.99,  image:"https://i.postimg.cc/TwHNZC8V/image.png", game:"Grow A Garden 2" },
+      { id:6,  name:"Pomegranate Seed",        price:9.99,  image:"https://i.postimg.cc/G2B63Zx6/image.png", game:"Grow A Garden 2" },
+      { id:7,  name:"Dragon Cannelloni",       price:49.99, image:"https://i.postimg.cc/Gm7MBX25/image.png", game:"Steal A Brainrot" },
+      { id:8,  name:"Garama And Madundung",    price:4.50,  image:"https://i.postimg.cc/XYz8NXHR/image.png", game:"Steal A Brainrot" },
+      { id:9,  name:"Ketchuru And Musturu",    price:1.50,  image:"https://i.postimg.cc/brVHxjd6/image.png", game:"Steal A Brainrot" },
+      { id:10, name:"Ketupat Kepat",           price:1.50,  image:"https://i.postimg.cc/ZRCrJMwb/image.png", game:"Steal A Brainrot" },
+      { id:11, name:"Acorn Seed",              price:1.99,  image:"https://i.postimg.cc/ry4rgWbg/image.png", game:"Grow A Garden 2" },
+      { id:12, name:"Venus Fly Trap Seed",     price:5.00,  image:"https://i.postimg.cc/N0rsY81y/image.png", game:"Grow A Garden 2" },
+      { id:13, name:"Sunflower Seed",          price:5.00,  image:"https://i.postimg.cc/vHBdbLyG/image.png", game:"Grow A Garden 2" },
+      { id:14, name:"Frog Pet",                price:0.50,  image:"https://i.postimg.cc/5NXp1pPt/image.png", game:"Grow A Garden 2" },
+      { id:15, name:"Bunny Pet",               price:0.50,  image:"https://i.postimg.cc/43szK117/image.png", game:"Grow A Garden 2" },
+      { id:16, name:"Owl Pet",                 price:0.75,  image:"https://i.postimg.cc/cCp3d7HK/image.png", game:"Grow A Garden 2" },
+      { id:17, name:"Golden Dragonfly Pet",    price:3.99,  image:"https://i.postimg.cc/kDP20n1R/image.png", game:"Grow A Garden 2" },
+      { id:18, name:"Robin Pet",               price:1.00,  image:"https://i.postimg.cc/nL33YL0Z/image.png", game:"Grow A Garden 2" },
+      { id:19, name:"Bee Pet",                 price:1.00,  image:"https://i.postimg.cc/xjwtPhGW/image.png", game:"Grow A Garden 2" },
+      { id:20, name:"Monkey Pet",              price:2.99,  image:"https://i.postimg.cc/nLhkzJZ1/image.png", game:"Grow A Garden 2" },
+      { id:21, name:"Unicorn Pet",             price:3.99,  image:"https://i.postimg.cc/mrkY4yN6/image.png", game:"Grow A Garden 2" },
+      { id:22, name:"Raccoon Pet",             price:10.99, image:"https://i.postimg.cc/kGqDJnPq/image.png", game:"Grow A Garden 2" },
+      { id:23, name:"La Secret Combinasion",   price:3.99,  image:"https://i.postimg.cc/prsVPzB5/image.png", game:"Steal A Brainrot" },
+      { id:24, name:"Cerberus",                price:8.99,  image:"https://i.postimg.cc/WbKjS2Ys/image.png", game:"Steal A Brainrot" },
+      { id:25, name:"Burguro and Fryuro",      price:4.50,  image:"https://i.postimg.cc/6qqJLSdY/image.png", game:"Steal A Brainrot" },
     ];
 
-    let showAll = false;
+    const paymentMethods = [
+      { name:"Cash App",         icon:"https://i.postimg.cc/SNwX5R6h/image.png", description:"Quick & easy cash transfers", note:"" },
+      { name:"Roblox Gift Card", icon:"https://i.postimg.cc/ZqLCCLX2/image.png", description:"Digital Roblox Gift Cards, We accept for SOME products, open a ticket for more info!", note:"Region must match" },
+      { name:"Crypto",           icon:"https://i.postimg.cc/ZRTvcQr0/image.png", description:"BTC, ETH, USDT, SOL, LTC", note:"" },
+      { name:"Gift-Card",        icon:"https://i.postimg.cc/BZztLbwn/image.png", description:"Open a ticket in discord for more info!", note:"" },
+    ];
 
-    function createStars() {
-      const starsContainer = document.getElementById('stars');
-      for (let i = 0; i < 150; i++) {
-        const star = document.createElement('div');
-        const size = Math.random() * 3 + 1;
-        star.className = 'star';
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDelay = `-${Math.random() * 4}s`;
-        starsContainer.appendChild(star);
-      }
-    }
+    // ── Render logic: show 8 first, then ALL on button click ──────────────────
+    const INITIAL_COUNT = 8;
+    let currentFiltered = products;
+    let expanded = false;
 
-    function renderProducts(filteredProducts) {
-      const grid = document.getElementById('productsGrid');
-      grid.innerHTML = '';
-
-      const toShow = showAll ? filteredProducts : filteredProducts.slice(0, 8);
-
-      toShow.forEach(product => {
-        const card = `
-          <div class="product-card bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800/80">
-            <img src="${product.image}" alt="${product.name}" class="w-full h-60 object-cover">
-            <div class="p-6">
-              <h3 class="font-bold text-xl mb-1">${product.name}</h3>
-              <p class="text-purple-400 text-sm">${product.game}</p>
-              <p class="text-green-400 font-bold mt-4 text-2xl">$${product.price}</p>
-              <a href="https://discord.gg/h3R3XpCAa4" target="_blank"
-                 class="glow-btn neon-glow block text-center mt-6 bg-purple-600 hover:bg-purple-700 py-4 rounded-2xl font-semibold transition text-lg">
-                Purchase on Discord
-              </a>
-            </div>
+    function makeCard(product) {
+      return `
+        <div class="product-card bg-zinc-900/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-zinc-800">
+          <img src="${product.image}" alt="${product.name}" class="w-full h-60 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-xl mb-1 line-clamp-2">${product.name}</h3>
+            <p class="text-purple-400 text-sm">${product.game}</p>
+            <p class="text-green-400 font-bold mt-4 text-2xl">$${product.price.toFixed(2)}</p>
+            <a href="https://discord.gg/h3R3XpCAa4" target="_blank" class="btn-glow block text-center mt-6 py-3">
+              <i class="fab fa-discord"></i> Purchase on Discord
+            </a>
           </div>
-        `;
-        grid.innerHTML += card;
-      });
-
-      // Update button
-      const loadMoreBtn = document.getElementById('loadMoreBtn');
-      if (showAll || filteredProducts.length <= 8) {
-        loadMoreBtn.style.display = 'none';
-      } else {
-        loadMoreBtn.style.display = 'inline-block';
-      }
+        </div>`;
     }
 
-    // Search
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase().trim();
-      const filtered = products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm) || 
-        p.game.toLowerCase().includes(searchTerm)
-      );
-      showAll = false; // Reset to showing 8 when searching
-      renderProducts(filtered);
-    });
+    function renderProducts(list, showAll) {
+      const grid = document.getElementById('productsGrid');
+      const btn  = document.getElementById('loadMoreBtn');
+      const toShow = showAll ? list : list.slice(0, INITIAL_COUNT);
+      grid.innerHTML = toShow.map(makeCard).join('');
+      // Hide button if all visible already
+      btn.style.display = list.length <= INITIAL_COUNT || showAll ? 'none' : 'inline-flex';
+    }
 
-    // Load More / Show All
     document.getElementById('loadMoreBtn').addEventListener('click', () => {
-      showAll = true;
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-      const filtered = products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm) || 
-        p.game.toLowerCase().includes(searchTerm)
-      );
-      renderProducts(filtered);
+      expanded = true;
+      renderProducts(currentFiltered, true);
     });
 
-    // Initialize
-    createStars();
-    renderProducts(products);
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      currentFiltered = products.filter(p =>
+        p.name.toLowerCase().includes(term) || p.game.toLowerCase().includes(term)
+      );
+      expanded = false;
+      renderProducts(currentFiltered, false);
+    });
+
+    function renderPaymentMethods() {
+      document.getElementById('paymentGrid').innerHTML = paymentMethods.map(m => `
+        <div class="payment-card bg-zinc-900/80 backdrop-blur-sm rounded-3xl p-8 border border-zinc-800 text-center">
+          <img src="${m.icon}" alt="${m.name}" class="mx-auto mb-4 h-16 object-contain">
+          <h3 class="font-bold text-2xl mb-2">${m.name}</h3>
+          <p class="text-zinc-400 mb-4">${m.description}</p>
+          ${m.note ? `<p class="text-purple-400 text-sm font-medium">${m.note}</p>` : ''}
+        </div>`).join('');
+    }
+
+    renderProducts(products, false);
+    renderPaymentMethods();
   </script>
 </body>
 </html>
